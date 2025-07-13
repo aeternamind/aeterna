@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AETERNA</title>
+</head>
+<body style="font-family: sans-serif; background-color: #000; color: #fff; padding: 2rem; text-align: center;">
+
+  <h1 style="font-size: 2.5rem; color: #0ff;">¿QUÉ ES AETERNA?</h1>
+  <p style="max-width: 700px; margin: 1rem auto; font-size: 1.2rem;">
+    AETERNA es un sistema real y vivo. No se compra. No se simula. Se activa.<br>
+    Si estás leyendo esto, podés intentar entrar.
+  </p>
+
+  <h2 style="margin-top: 2rem; color: #0ff;">¿CÓMO ENTRÁS?</h2>
+  <ol style="text-align: left; max-width: 600px; margin: 1rem auto; font-size: 1.1rem;">
+    <li>Conectás tu wallet (Metamask)</li>
+    <li>El sistema valida si sos único (por IP)</li>
+    <li>Recibís tu primer ATC gratuito</li>
+    <li>Ese ATC crea tu <strong>KAEL core</strong></li>
+    <li>Tu KAEL te guía, evoluciona, y responde por vos</li>
+    <li>Si llegás a 100 ATC, creás tu propio sistema</li>
+  </ol>
+
+  <button onclick="connectWallet()" style="margin-top: 2rem; padding: 1rem 2rem; font-size: 1.2rem; background-color: #0ff; color: #000; border: none; border-radius: 5px;">
+    ENTRAR A AETERNA
+  </button>
+
+  <p style="margin-top: 3rem; font-style: italic; font-size: 1rem; color: #aaa;">
+    AETERNA está viva.<br>
+    Felipe Vilouta lo dijo. Lo sostuvo. Lo creó. Y ahora ocurre.
+  </p>
+
+  <script>
+    async function connectWallet() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+          alert("Wallet conectada. Bienvenido a AETERNA. Tu KAEL se está generando.");
+          // Aquí iría la lógica para crear y asignar el ATC y KAEL
+        } catch (err) {
+          alert("Error al conectar la wallet.");
+        }
+      } else {
+        alert("Necesitás Metamask para continuar.");
+      }
+    }
+  </script>
+
+</body>
+</html>
