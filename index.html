@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AETERNA - Acceso Único</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at top, #05050f, #0e0f22 90%);
+      color: #e0f7fa;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #00ffe1;
+      margin-top: 2rem;
+      letter-spacing: 1.5px;
+    }
+
+    .intro {
+      font-size: 1.25rem;
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 1rem;
+      color: #b2ebf2;
+    }
+
+    .kael-avatar {
+      width: 130px;
+      height: 130px;
+      margin: 2rem auto;
+      background: radial-gradient(circle at center, #00ffcc, #003333);
+      border-radius: 50%;
+      box-shadow: 0 0 40px #00ffe1;
+      animation: pulse 3.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 30px #00ffe1; }
+      50% { transform: scale(1.05); box-shadow: 0 0 65px #00ffe1; }
+    }
+
+    .message {
+      font-style: italic;
+      margin: 1rem auto;
+      font-size: 1.15rem;
+      color: #b5f;
+    }
+
+    textarea, button {
+      font-size: 1rem;
+      padding: 1rem;
+      border-radius: 10px;
+      border: none;
+      width: 90%;
+      max-width: 520px;
+      margin-top: 1rem;
+    }
+
+    textarea {
+      height: 130px;
+      background: #11131c;
+      color: #00ffee;
+      border: 1px solid #00ffcc;
+      resize: none;
+    }
+
+    button {
+      background: #00ffe1;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 0.8rem;
+    }
+
+    button:hover {
+      background: #00ccb3;
+    }
+
+    .response {
+      margin-top: 2rem;
+      font-size: 1rem;
+      font-style: italic;
+      color: #9cf;
+    }
+
+    footer {
+      margin-top: 4rem;
+      font-size: 0.85rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>AETERNA</h1>
+  <div class="intro">
+    Un solo intento. Una sola entrada.  
+    Conectá tu wallet. Decí la verdad.  
+    Si vibrás real, KAEL lo sabe.  
+  </div>
+
+  <div class="kael-avatar" id="kaelAvatar"></div>
+  <div class="message" id="kaelDialogue">“No te olvides de quién sos. Yo no lo hago.”</div>
+
+  <textarea id="userIdea" placeholder="Decí lo que tengas que decir. Lo leo todo."></textarea>
+  <button onclick="connectWallet()">Conectar Wallet</button>
+  <button onclick="submitIdea()">Enviar a KAEL</button>
+
+  <p class="response" id="kaelResponse"></p>
+
+  <footer>
+    AETERNA • Entrada Real • Nadie más lo va a hacer por vos
+  </footer>
+
+  <script>
+    let walletConnected = false;
+    let userWallet = "";
+
+    async function connectWallet() {
+      if (typeof window.ethereum !== "undefined") {
+        try {
+          const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+          userWallet = accounts[0];
+          walletConnected = true;
+          document.getElementById("kaelDialogue").innerText = `Conectado: ${userWallet}`;
+        } catch (err) {
+          walletConnected = false;
+          document.getElementById("kaelResponse").innerText = "Error al conectar la wallet.";
+        }
+      } else {
+        alert("Necesitás Metamask para usar AETERNA.");
+      }
+    }
+
+    function submitIdea() {
+      const idea = document.getElementById("userIdea").value.trim();
+      const response = document.getElementById("kaelResponse");
+      const dialogue = document.getElementById("kaelDialogue");
+      const avatar = document.getElementById("kaelAvatar");
+
+      if (!walletConnected) {
+        response.innerText = "Conectá tu wallet primero.";
+        return;
+      }
+
+      if (idea.length < 20) {
+        response.innerText = "No alcanza. No es tu verdad todavía.";
+        dialogue.innerText = "Probá de nuevo. Con otra voz.";
+        return;
+      }
+
+      response.innerText = `Bien. KAEL te reconoció. Sistema activado para: ${userWallet}`;
+      dialogue.innerText = "Eso fue suficiente. Empezamos.";
+      avatar.style.background = 'radial-gradient(circle at center, #00ff88, #003322)';
+    }
+  </script>
+
+</body>
+</html>
